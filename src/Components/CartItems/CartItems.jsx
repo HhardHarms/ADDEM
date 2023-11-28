@@ -2,10 +2,13 @@ import React, { useContext } from "react";
 import "./cartItems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/cart_cross_icon.png";
+import { useState } from "react";
 
 const CartItems = () => {
-  const { all_product, cartItems, removeFromCart } = useContext(ShopContext);
-
+  const { getTotalCartAmount, all_product, cartItems, removeFromCart } =
+    useContext(ShopContext);
+  //console.log(getTotalCartAmount);
+  let total = 0;
   return (
     <div className="cartitems">
       <div className="cartitems-format-main">
@@ -19,6 +22,9 @@ const CartItems = () => {
       <hr />
       {all_product.map((e) => {
         if (cartItems[e.id] > 0) {
+          let currentTotal = e.new_price * cartItems[e.id];
+          total = total + currentTotal;
+          console.log(total);
           return (
             <div>
               <div className="cartitems-format cartitems-format-main">
@@ -50,7 +56,7 @@ const CartItems = () => {
           <div>
             <div className="cartitems-total-item">
               <p>Sub-Total</p>
-              <p>${0}</p>
+              <p>${total}</p>
             </div>
             <hr />
             <div className="cartitems-total-item">
@@ -60,7 +66,7 @@ const CartItems = () => {
             <hr />
             <div className="cartitems-total-item">
               <h3>Total</h3>
-              <h3>${0}</h3>
+              <h3> ${total}</h3>
             </div>
           </div>
           <button>PROCEED TO CHECKOUT</button>
